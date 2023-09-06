@@ -5,13 +5,18 @@ Bem-vindo, este é um projeto desenvolvido para teste de conhecimento em manipul
 ## Como Funciona?
 
 Ainda em desenvolvimento.
+Privado, enquanto faço os primeiros acertos e testes.
 
 ## Contato
 
 👤 **William Wang**
+
 👋 Sou William Wang, um entusiasta de tecnologia.
+
 🚀 Estudante de programação em busca de aprendizado constante.
+
 🌟 Apaixonado por criar e inovar através do código.
+
 📚 Compartilhando conhecimento e explorando novas fronteiras.
 
 Vamos Conectar:
@@ -23,4 +28,4 @@ Vamos Conectar:
 Este projeto está licenciado sob a Licença [MIT License](https://www.mit.edu/~amini/LICENSE.md).
 
 ---
-Privado, enquanto faço os primeiros acertos e testes.
+
