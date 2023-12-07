@@ -12,17 +12,18 @@ def gerador_folhas_col(dados, modelo_folha_ponto):
         aba_ativa_folha = planilha_folha_ponto.active
 
         linha_nome = celula.row
-        setor = aba_ativa_nomes[f"D{linha_nome}"].value
-        nome = aba_ativa_nomes[f"B{linha_nome}"].value
-        cargo = aba_ativa_nomes[f"C{linha_nome}"].value
-        mat = aba_ativa_nomes[f"A{linha_nome}"].value
+        if aba_ativa_folha[f"A{linha_nome}"] != "MATRÍCULA":
+            setor = aba_ativa_nomes[f"D{linha_nome}"].value
+            nome = aba_ativa_nomes[f"B{linha_nome}"].value
+            cargo = aba_ativa_nomes[f"C{linha_nome}"].value
+            mat = aba_ativa_nomes[f"A{linha_nome}"].value
 
-        aba_ativa_folha["C4"] = "NOME: " + str(nome)
-        aba_ativa_folha["C5"] = "CARGO: " + str(cargo)
-        aba_ativa_folha["G5"] = "MATRÍCULA: " + str(mat)
+            aba_ativa_folha["C4"] = "NOME: " + str(nome)
+            aba_ativa_folha["C5"] = "CARGO: " + str(cargo)
+            aba_ativa_folha["G5"] = "MATRÍCULA: " + str(mat)
 
-        nome_planilha = str(f"{setor}_{nome}.xlsx")
-        planilha_folha_ponto.save(nome_planilha)
+            nome_planilha = str(f"{setor}_{nome}.xlsx")
+            planilha_folha_ponto.save(nome_planilha)
     return 0
 
 # A função irá criar um arquivo em pdf com base no excel

@@ -21,7 +21,9 @@ for arquivo in lista_caminho:
 print("Finalizado")
 # Falta colocar mudança de diretório para salvamento correto dos arquivos
 
-
+"""
+1. Colocar o projeto
+"""
 
 """print("Gerador de folha de ponto")
 
