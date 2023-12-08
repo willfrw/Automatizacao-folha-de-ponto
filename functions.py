@@ -12,7 +12,7 @@ def gerador_folhas_col(dados, modelo_folha_ponto):
         aba_ativa_folha = planilha_folha_ponto.active
 
         linha_nome = celula.row
-        if aba_ativa_folha[f"A{linha_nome}"] != "MATRÍCULA":
+        if linha_nome > 1:
             setor = aba_ativa_nomes[f"D{linha_nome}"].value
             nome = aba_ativa_nomes[f"B{linha_nome}"].value
             cargo = aba_ativa_nomes[f"C{linha_nome}"].value
