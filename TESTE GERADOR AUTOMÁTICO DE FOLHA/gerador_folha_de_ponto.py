@@ -1,8 +1,6 @@
-import os
-from openpyxl import Workbook, load_workbook
-import win32com.client
 from datetime import datetime, timedelta
-
+from openpyxl import Workbook, load_workbook
+from tkinter.filedialog import askopenfilename, askdirectory
 
 dia_semana_dict = {
     'Sunday': 'DOMINGO',
@@ -53,63 +51,14 @@ coluna_list = ['E', 'F', 'G', 'H', 'I']
 
 qnt_dias_mes = []
 
-def gerador_folhas_col(dados, modelo_folha_ponto):
-    planilha_nomes = load_workbook(dados)
-    aba_ativa_nomes = planilha_nomes.active
-
-    for celula in aba_ativa_nomes["A"]:
-
-        linha_nome = celula.row
-
-        if linha_nome > 1:
-            setor_cod = aba_ativa_nomes[f"D{linha_nome}"].value
-            setor_nome = aba_ativa_nomes[f"E{linha_nome}"].value
-            nome = aba_ativa_nomes[f"B{linha_nome}"].value
-            cargo = aba_ativa_nomes[f"C{linha_nome}"].value
-            mat = aba_ativa_nomes[f"A{linha_nome}"].value
-            if cargo != 'CARGO2':
-                planilha_folha_ponto = load_workbook(modelo_folha_ponto[0])
-                aba_ativa_folha = planilha_folha_ponto.active
-                aba_ativa_folha["C4"] = "NOME: " + str(nome)
-                aba_ativa_folha["C5"] = "CARGO: " + str(cargo)
-                aba_ativa_folha["G5"] = "MATRÍCULA: " + str(mat)
-
-                nome_planilha = str(f"{setor_cod}_{nome}.xlsx")
-            else:
-                planilha_folha_ponto = load_workbook(modelo_folha_ponto[1])
-                aba_ativa_folha = planilha_folha_ponto.active
-                aba_ativa_folha["C4"] = "NOME: " + str(nome)
-                aba_ativa_folha["C5"] = "CARGO: " + str(cargo)
-                aba_ativa_folha["G5"] = "MATRÍCULA: " + str(mat)
-
-                nome_planilha = str(f"{setor_cod}_{nome}.xlsx")
-
-            planilha_folha_ponto.save(nome_planilha)
-    return 0
-
-# A função irá criar um arquivo em pdf com base no excel
-# Criar um loop for com o tamanho da lista com os arquivo para criar conforme percorsse o diretório
-def gerador_pdf(path):
-    excel = win32com.client.Dispatch("Excel.Application")
-    excel.Visible = False
-    excel.DisplayAlerts = False
-
-    workbook = excel.Workbooks.Open(path)
-    path_pdf = path.replace(".xlsx", ".pdf")
-
-    try:
-        workbook.ActiveSheet.ExportAsFixedFormat(0, path_pdf)
-    except Exception as e:
-        print(f"Erro ao exportar {path} para PDF: {str(e)}")
-    finally:
-        workbook.Close(False)
-        excel.Quit()
-
-    return 0
+modelo = askopenfilename(title="Planilha Modelo")
+pasta_origem = askdirectory(title="Pasta Origem")
+pasta_destino = askdirectory(title="Pasta Destino")
+mes = int(input("Digite o mês: "))
+ano = int(input("Digite o ano: "))
 
 
-# Cria o modelo de folha com base no mês, sendo esta utilizada para vincular aos nomes dos funcionários
-def gerador_folha_mensal(mes, ano, modelo, lista_nome_gerado=[2]):
+def gerador_folha_mensal(mes, ano, modelo):
     for m in range(1, 13):
         if ((m) % 2 != 0 and (m) <= 7) or ((m) % 2 == 0 and (m) >= 8):
             qnt_dias_mes.append(31)
@@ -159,25 +108,16 @@ def gerador_folha_mensal(mes, ano, modelo, lista_nome_gerado=[2]):
     for celula in aba_folha_de_ponto_prt['C']:
         linha = celula.row
         if linha >= 7 and linha <= qnt_dias_mes[mes - 1] + 6:
-            #print(qnt_dias_mes[mes - 1])
+            print(qnt_dias_mes[mes - 1])
             aba_folha_de_ponto_prt[f'C{linha}'] = f'{n_mes.strftime("%d/%m/%Y")}'
             aba_folha_de_ponto_prt[f'D{linha}'] = f'{dia_semana_dict[n_mes.strftime("%A")]}'
-            #print(aba_folha_de_ponto_prt[f'C{linha}'].value)
+            print(aba_folha_de_ponto_prt[f'C{linha}'].value)
             n_mes += timedelta(days=1)
 
-    nome_folha = f'{str(mes)} - {mes_dict[str(mes)]} {str(ano)}_dne.xlsx'
-    nome_folha_prt = f'{str(mes)} - {mes_dict[str(mes)]} {str(ano)} - PORT_dne.xlsx'
-    lista_nome_gerado.append(nome_folha)
-    lista_nome_gerado.append(nome_folha_prt)
+    nome_folha = f'{str(mes)} - {mes_dict[str(mes)]} {str(ano)}.xlsx'
+    nome_folha_prt = f'{str(mes)} - {mes_dict[str(mes)]} {str(ano)} - PORT.xlsx'
+
     folha_de_ponto.save(nome_folha)
     folha_de_ponto_prt.save(nome_folha_prt)
 
-
-"""def gerador_folha_mensal(modelo_folha_ponto):
-    print("Teste")
-
-meses = {"jan":("01/01/2024")}"""
-
-
-
-
+gerador_folha_mensal(mes, ano, modelo)
