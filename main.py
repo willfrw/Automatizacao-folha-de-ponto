@@ -68,7 +68,7 @@ for arquivo_name in lista_nome_arquivo:
     # Se o arquivo for .pdf move o arquivo
     if ".pdf" in arquivo_name:
         pasta_setor = dic_setor[arquivo_name[:3]]
-        if os.path.isdir(f"{pasta_destino}{pasta_mes}//{pasta_setor}")==False:
+        if os.path.isdir(f"{pasta_destino}//{pasta_mes}//{pasta_setor}")==False:
             os.mkdir(f"{pasta_destino}//{pasta_mes}//{pasta_setor}")
 
         os.rename(arquivo_name, f"{pasta_destino}//{pasta_mes}//{pasta_setor}//{arquivo_name}") # Tem que arrumar, está criando duas pastas
